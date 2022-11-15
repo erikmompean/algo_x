@@ -1,6 +1,6 @@
-import 'package:crypto_x/bloc/bloc_files/bloc_provider.dart';
-import 'package:crypto_x/bloc/home_screen_bloc.dart';
+import 'package:crypto_x/bloc/home_screen_bloc/home_screen_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,17 +9,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeScreenBloc>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-      ),
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: bloc.initializeAlgorand,
-              child: const Text('Inicializar'),
-            ),
             // const SizedBox(
             //   height: 10,
             // ),
@@ -27,6 +21,13 @@ class HomeScreen extends StatelessWidget {
             //   onPressed: bloc.createWallet,
             //   child: const Text('Crear Wallet'),
             // ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: bloc.createWallet,
+              child: const Text('Crear una wallet'),
+            ),
             const SizedBox(
               height: 10,
             ),

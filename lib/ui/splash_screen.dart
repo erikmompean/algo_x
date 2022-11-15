@@ -1,10 +1,10 @@
-import 'package:crypto_x/bloc/bloc_files/bloc_provider.dart';
-import 'package:crypto_x/bloc/home_screen_bloc.dart';
-import 'package:crypto_x/bloc/splash_screen_bloc.dart';
+import 'package:crypto_x/bloc/home_screen_bloc/home_screen_bloc.dart';
+import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_bloc.dart';
 import 'package:crypto_x/locators/app_locator.dart';
 import 'package:crypto_x/services/purestake_service.dart';
 import 'package:crypto_x/ui/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -18,15 +18,19 @@ class SplashScreen extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => BlocProvider<HomeScreenBloc>(
-            bloc: HomeScreenBloc(AppLocator.locate<PureStakeService>()),
-            child: const HomeScreen(), 
+            create: (_) =>
+                HomeScreenBloc(AppLocator.locate<PureStakeService>()),
+            child: const HomeScreen(),
           ),
         ),
       );
     });
-    return Center(
-      child: LoadingAnimationWidget.halfTriangleDot(
-          color: Colors.orange, size: 50),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: LoadingAnimationWidget.halfTriangleDot(
+            color: Colors.orange, size: 50),
+      ),
     );
   }
 }

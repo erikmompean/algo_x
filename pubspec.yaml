@@ -39,6 +39,8 @@ dependencies:
   algorand_dart: ^1.0.3
   loading_animation_widget: ^1.2.0+3
   get_it: ^7.2.0
+  encrypted_shared_preferences: ^3.0.1
+  flutter_bloc: ^8.1.1
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,11 @@
 import 'package:algorand_dart/algorand_dart.dart';
-import 'package:crypto_x/bloc/bloc_files/bloc.dart';
+import 'package:crypto_x/bloc/home_screen_bloc/home_screen_event.dart';
+import 'package:crypto_x/bloc/home_screen_bloc/home_screen_state.dart';
 import 'package:crypto_x/services/purestake_service.dart';
-import 'package:crypto_x/utils.dart';
+import 'package:crypto_x/utils/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreenBloc implements Bloc {
+class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   final String apiKey = 'kPDlC2B5S18AwENiuk0NH7mr7iD707vG2zKMdHRV';
   final String apiUrl = 'https://testnet-algorand.api.purestake.io/ps2';
 
@@ -12,40 +14,10 @@ class HomeScreenBloc implements Bloc {
   Account? account2;
   String? _transactionID;
   PureStakeService pureStakeService;
-  HomeScreenBloc(this.pureStakeService);
-
-  Future<void> initializeAlgorand() async {
-    final algodClient = AlgodClient(
-      apiUrl: PureStake.TESTNET_ALGOD_API_URL,
-      apiKey: apiKey,
-      tokenKey: PureStake.API_TOKEN_HEADER,
-    );
-
-    final indexerClient = IndexerClient(
-      apiUrl: PureStake.TESTNET_INDEXER_API_URL,
-      apiKey: apiKey,
-      tokenKey: PureStake.API_TOKEN_HEADER,
-    );
-
-    _algorand = Algorand(
-      algodClient: algodClient,
-      indexerClient: indexerClient,
-    );
-  }
+  HomeScreenBloc(this.pureStakeService) : super(HomeScreenState());
 
   Future<void> createWallet() async {
-    if (_algorand != null) {
-      var account = await _algorand!.createAccount();
-      var seedPhrase = await account.seedPhrase;
-      var private = await account.keyPair.extractPrivateKeyBytes();
-      print('address: ${account.address}');
-      print('seedPhrase: ${seedPhrase.toString()}');
-      print('publicKey: ${account.publicKey}');
-      print('publicAddress: ${account.publicAddress}');
-      print('private: ${private.toString()}');
-    } else {
-      print('error');
-    }
+    var account = await pureStakeService.createWallet();
   }
 
   Future<void> loadAccounts() async {
@@ -103,5 +75,11 @@ class HomeScreenBloc implements Bloc {
   @override
   void dispose() {
     // TODO: implement dispose
+  }
+
+  @override
+  Future<void> initialize() {
+    // TODO: implement initialize
+    throw UnimplementedError();
   }
 }
