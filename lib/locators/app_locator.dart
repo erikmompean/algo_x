@@ -1,12 +1,11 @@
 import 'package:crypto_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:crypto_x/repositories/purestake_repository.dart';
 import 'package:crypto_x/services/purestake_service.dart';
-import 'package:crypto_x/utils/app_navigator.dart';
 import 'package:get_it/get_it.dart';
 
 class AppLocator {
   static void setup() {
-    _registerSingleton<AppNavigator>(AppNavigator());
+    // _registerSingleton<AppNavigator>(AppNavigator());
 
     // Repositories
     _registerSingleton<EncryptedPreferencesRepository>(

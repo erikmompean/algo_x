@@ -1,6 +1,9 @@
+import 'package:crypto_x/bloc/create_wallet_screen_bloc/create_wallet_screen_bloc.dart';
+import 'package:crypto_x/bloc/create_wallet_screen_bloc/create_wallet_screen_event.dart';
 import 'package:crypto_x/bloc/home_screen_bloc/home_screen_bloc.dart';
 import 'package:crypto_x/locators/app_locator.dart';
 import 'package:crypto_x/services/purestake_service.dart';
+import 'package:crypto_x/ui/create_wallet_screen.dart';
 import 'package:crypto_x/ui/home_screen.dart';
 import 'package:crypto_x/ui/not_found_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Routes {
   static const String home = '/home';
+  static const String createWallet = '/create_wallet';
   static const String start = '/start_wallet';
 
   static Route generateAppRoute(RouteSettings routeSettings) {
@@ -20,6 +24,16 @@ class Routes {
                       HomeScreenBloc(AppLocator.locate<PureStakeService>()),
                   child: const HomeScreen(),
                 ));
+      case createWallet:
+        return PageRouteBuilder(
+          pageBuilder: (context, _, __) => BlocProvider<CreateWalletScreenBloc>(
+            create: (_) =>
+                CreateWalletScreenBloc(AppLocator.locate<PureStakeService>())
+                  ..add(CreateWalletInitEvent()),
+            child: CreateWalletScreen(),
+          ),
+          transitionsBuilder: transition,
+        );
     }
 
     return PageRouteBuilder(
@@ -32,5 +46,19 @@ class Routes {
     }
 
     return settings.name;
+  }
+
+  static Widget transition(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    const begin = Offset(0.0, 1.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
   }
 }
