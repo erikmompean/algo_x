@@ -7,3 +7,6 @@ class CreateWalletIdle extends CreateWalletState {
 
   CreateWalletIdle(this.seedPhrase);
 }
+
+
+class FinishedCreateAccountState extends CreateWalletState {}

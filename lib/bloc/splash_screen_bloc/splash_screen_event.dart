@@ -1,3 +1,5 @@
 abstract class SplashScreenEvent {}
 
-abstract class LoadingFinished  extends SplashScreenEvent {}
+class SplashLoadingFinishedEvent  extends SplashScreenEvent {}
+
+class SplashScreenInitEvent  extends SplashScreenEvent {}

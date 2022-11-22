@@ -1,5 +1,6 @@
 import 'package:crypto_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:crypto_x/repositories/purestake_repository.dart';
+import 'package:crypto_x/services/encrypted_preferences_service.dart';
 import 'package:crypto_x/services/purestake_service.dart';
 import 'package:get_it/get_it.dart';
 
@@ -15,6 +16,8 @@ class AppLocator {
     // Services
     _registerSingleton<PureStakeService>(
         PureStakeService(locate<PureStakeRepository>()));
+    _registerSingleton<EncryptedPreferencesService>(
+        EncryptedPreferencesService(locate<EncryptedPreferencesRepository>()));
   }
 
   static void _registerSingleton<T extends Object>(T instance) {

@@ -1,4 +1,5 @@
 import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_bloc.dart';
+import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_event.dart';
 import 'package:crypto_x/locators/app_locator.dart';
 import 'package:crypto_x/ui/splash_screen.dart';
 import 'package:crypto_x/utils/navigator_service.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider<SplashScreenBloc>(
-        create: (_) => SplashScreenBloc(),
+        create: (_) => SplashScreenBloc()..add(SplashScreenInitEvent()),
         child: const SplashScreen(),
       ),
     );

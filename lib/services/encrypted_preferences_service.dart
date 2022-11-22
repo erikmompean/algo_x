@@ -10,10 +10,10 @@ class EncryptedPreferencesService {
 
   Future<void> saveAccount(Account account) async {
     await _encryptedPreferencesRepository
-        .saveAccount(jsonEncode(account.keyPair.extractPrivateKeyBytes()));
+        .saveAccount(jsonEncode(await account.keyPair.extractPrivateKeyBytes()));
   }
 
-  Future<String> retrieveAccount() {
-    return _encryptedPreferencesRepository.retrieveAccount();
+  Future<String> retrieveAccount() async {
+    return await _encryptedPreferencesRepository.retrieveAccount();
   }
 }
