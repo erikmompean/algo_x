@@ -1,4 +1,4 @@
-package com.example.crypto_x
+package com.example.algo_x
 
 import io.flutter.embedding.android.FlutterActivity
 

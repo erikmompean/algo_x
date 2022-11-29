@@ -1,4 +1,4 @@
-import 'package:crypto_x/bloc/home_screen_bloc/home_screen_bloc.dart';
+import 'package:algo_x/bloc/home_screen_bloc/home_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

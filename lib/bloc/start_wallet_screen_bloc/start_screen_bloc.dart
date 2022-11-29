@@ -1,8 +1,8 @@
-import 'package:crypto_x/bloc/start_wallet_screen_bloc/start_screen_event.dart';
-import 'package:crypto_x/bloc/start_wallet_screen_bloc/start_screen_state.dart';
-import 'package:crypto_x/services/purestake_service.dart';
-import 'package:crypto_x/utils/navigator_service.dart';
-import 'package:crypto_x/utils/routes.dart';
+import 'package:algo_x/bloc/start_wallet_screen_bloc/start_screen_event.dart';
+import 'package:algo_x/bloc/start_wallet_screen_bloc/start_screen_state.dart';
+import 'package:algo_x/services/purestake_service.dart';
+import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StartScreenBloc extends Bloc<StartScreenEvent, StartState> {

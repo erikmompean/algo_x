@@ -1,8 +1,8 @@
-import 'package:crypto_x/bloc/start_wallet_screen_bloc/start_screen_bloc.dart';
-import 'package:crypto_x/bloc/start_wallet_screen_bloc/start_screen_event.dart';
-import 'package:crypto_x/locators/app_colors.dart';
-import 'package:crypto_x/widgets/app_button.dart';
-import 'package:crypto_x/widgets/app_text.dart';
+import 'package:algo_x/bloc/start_wallet_screen_bloc/start_screen_bloc.dart';
+import 'package:algo_x/bloc/start_wallet_screen_bloc/start_screen_event.dart';
+import 'package:algo_x/locators/app_colors.dart';
+import 'package:algo_x/widgets/app_button.dart';
+import 'package:algo_x/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

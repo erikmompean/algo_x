@@ -1,6 +1,7 @@
-import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_bloc.dart';
-import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_event.dart';
-import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_state.dart';
+import 'package:algo_x/bloc/splash_screen_bloc/splash_screen_bloc.dart';
+import 'package:algo_x/bloc/splash_screen_bloc/splash_screen_state.dart';
+import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -29,7 +30,9 @@ class SplashScreen extends StatelessWidget {
         bloc: bloc,
         listener: (context, state) {
           if (state is SplashFinishedLoadingState) {
-            bloc.add(SplashLoadingFinishedEvent());
+            NavigationService.instance.navigateToReplacement(
+                state.isFirstTime ? Routes.start : Routes.home);
+            // bloc.add(SplashLoadingFinishedEvent());
           }
         },
         child: Center(

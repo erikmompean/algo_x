@@ -1,4 +1,4 @@
-// import 'package:crypto_x/bloc/bloc_files/bloc.dart';
+// import 'package:algo_x/bloc/bloc_files/bloc.dart';
 // import 'package:flutter/material.dart';
 
 // class BlocBaseView extends StatelessWidget {

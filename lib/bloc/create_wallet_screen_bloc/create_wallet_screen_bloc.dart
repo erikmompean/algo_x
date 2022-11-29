@@ -1,8 +1,8 @@
 import 'package:algorand_dart/algorand_dart.dart';
-import 'package:crypto_x/bloc/create_wallet_screen_bloc/create_wallet_screen_event.dart';
-import 'package:crypto_x/bloc/create_wallet_screen_bloc/create_wallet_screen_state.dart';
-import 'package:crypto_x/services/encrypted_preferences_service.dart';
-import 'package:crypto_x/services/purestake_service.dart';
+import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_event.dart';
+import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_state.dart';
+import 'package:algo_x/services/encrypted_preferences_service.dart';
+import 'package:algo_x/services/purestake_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateWalletScreenBloc

@@ -1,5 +1,5 @@
 import 'package:algorand_dart/algorand_dart.dart';
-import 'package:crypto_x/repositories/purestake_repository.dart';
+import 'package:algo_x/repositories/purestake_repository.dart';
 import 'package:flutter/foundation.dart';
 
 class PureStakeService {

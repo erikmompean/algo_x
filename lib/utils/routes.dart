@@ -1,14 +1,14 @@
-import 'package:crypto_x/bloc/create_wallet_screen_bloc/create_wallet_screen_bloc.dart';
-import 'package:crypto_x/bloc/create_wallet_screen_bloc/create_wallet_screen_event.dart';
-import 'package:crypto_x/bloc/home_screen_bloc/home_screen_bloc.dart';
-import 'package:crypto_x/bloc/start_wallet_screen_bloc/start_screen_bloc.dart';
-import 'package:crypto_x/locators/app_locator.dart';
-import 'package:crypto_x/services/encrypted_preferences_service.dart';
-import 'package:crypto_x/services/purestake_service.dart';
-import 'package:crypto_x/ui/create_wallet_screen.dart';
-import 'package:crypto_x/ui/home_screen.dart';
-import 'package:crypto_x/ui/not_found_screen.dart';
-import 'package:crypto_x/ui/start_screen.dart';
+import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_bloc.dart';
+import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_event.dart';
+import 'package:algo_x/bloc/home_screen_bloc/home_screen_bloc.dart';
+import 'package:algo_x/bloc/start_wallet_screen_bloc/start_screen_bloc.dart';
+import 'package:algo_x/locators/app_locator.dart';
+import 'package:algo_x/services/encrypted_preferences_service.dart';
+import 'package:algo_x/services/purestake_service.dart';
+import 'package:algo_x/ui/create_wallet_screen.dart';
+import 'package:algo_x/ui/home_screen.dart';
+import 'package:algo_x/ui/not_found_screen.dart';
+import 'package:algo_x/ui/start_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,4 +1,4 @@
-import 'package:crypto_x/locators/app_colors.dart';
+import 'package:algo_x/locators/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTopIconButton extends StatelessWidget {

@@ -1,8 +1,10 @@
-import 'package:crypto_x/bloc/bloc_utils/comon_states.dart';
-import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_event.dart';
-import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_state.dart';
-import 'package:crypto_x/utils/navigator_service.dart';
-import 'package:crypto_x/utils/routes.dart';
+import 'package:algo_x/bloc/bloc_utils/comon_states.dart';
+import 'package:algo_x/bloc/splash_screen_bloc/splash_screen_event.dart';
+import 'package:algo_x/bloc/splash_screen_bloc/splash_screen_state.dart';
+import 'package:algo_x/locators/app_locator.dart';
+import 'package:algo_x/services/encrypted_preferences_service.dart';
+import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
@@ -16,7 +18,12 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
 
   Future<void> _initialize(
       SplashScreenEvent event, Emitter<SplashScreenState> emit) async {
-    emit(SplashFinishedLoadingState());
+    AppLocator.setup();
+
+    String? privateKeys = await AppLocator.locate<EncryptedPreferencesService>()
+        .retrieveAccount();
+
+    emit(SplashFinishedLoadingState(privateKeys == null));
   }
 
   void _onLoadingFinished(

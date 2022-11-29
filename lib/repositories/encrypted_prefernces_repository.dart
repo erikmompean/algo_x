@@ -10,7 +10,8 @@ class EncryptedPreferencesRepository {
     await _encryptedPreferences.setString('priv_keys', jsonEncode(privateKey));
   }
 
-  Future<String> retrieveAccount() {
-    return _encryptedPreferences.getString('priv_keys');
+  Future<String?> retrieveAccount() async {
+    var value = await _encryptedPreferences.getString('priv_keys');
+    return value.isEmpty ? null : value;
   }
 }

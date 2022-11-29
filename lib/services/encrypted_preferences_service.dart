@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:algorand_dart/algorand_dart.dart';
-import 'package:crypto_x/repositories/encrypted_prefernces_repository.dart';
+import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
 
 class EncryptedPreferencesService {
   final EncryptedPreferencesRepository _encryptedPreferencesRepository;
@@ -13,7 +13,7 @@ class EncryptedPreferencesService {
         .saveAccount(jsonEncode(await account.keyPair.extractPrivateKeyBytes()));
   }
 
-  Future<String> retrieveAccount() async {
+  Future<String?> retrieveAccount() async {
     return await _encryptedPreferencesRepository.retrieveAccount();
   }
 }

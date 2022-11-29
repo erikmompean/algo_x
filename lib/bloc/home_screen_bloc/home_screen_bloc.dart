@@ -1,8 +1,8 @@
 import 'package:algorand_dart/algorand_dart.dart';
-import 'package:crypto_x/bloc/home_screen_bloc/home_screen_event.dart';
-import 'package:crypto_x/bloc/home_screen_bloc/home_screen_state.dart';
-import 'package:crypto_x/services/purestake_service.dart';
-import 'package:crypto_x/utils/utils.dart';
+import 'package:algo_x/bloc/home_screen_bloc/home_screen_event.dart';
+import 'package:algo_x/bloc/home_screen_bloc/home_screen_state.dart';
+import 'package:algo_x/services/purestake_service.dart';
+import 'package:algo_x/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {

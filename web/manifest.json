@@ -1,6 +1,6 @@
 {
-    "name": "crypto_x",
-    "short_name": "crypto_x",
+    "name": "algo_x",
+    "short_name": "algo_x",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

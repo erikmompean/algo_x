@@ -1,5 +1,5 @@
-import 'package:crypto_x/locators/app_colors.dart';
-import 'package:crypto_x/widgets/app_text.dart';
+import 'package:algo_x/locators/app_colors.dart';
+import 'package:algo_x/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class AppExpandableText extends StatefulWidget {

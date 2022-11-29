@@ -1,4 +1,4 @@
-# crypto_x
+# algo_x
 
 A new Flutter project.
 

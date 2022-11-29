@@ -1,7 +1,7 @@
-import 'package:crypto_x/repositories/encrypted_prefernces_repository.dart';
-import 'package:crypto_x/repositories/purestake_repository.dart';
-import 'package:crypto_x/services/encrypted_preferences_service.dart';
-import 'package:crypto_x/services/purestake_service.dart';
+import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
+import 'package:algo_x/repositories/purestake_repository.dart';
+import 'package:algo_x/services/encrypted_preferences_service.dart';
+import 'package:algo_x/services/purestake_service.dart';
 import 'package:get_it/get_it.dart';
 
 class AppLocator {

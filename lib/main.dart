@@ -1,15 +1,14 @@
-import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_bloc.dart';
-import 'package:crypto_x/bloc/splash_screen_bloc/splash_screen_event.dart';
-import 'package:crypto_x/locators/app_locator.dart';
-import 'package:crypto_x/ui/splash_screen.dart';
-import 'package:crypto_x/utils/navigator_service.dart';
-import 'package:crypto_x/utils/routes.dart';
-import 'package:crypto_x/utils/scroll_behavior.dart';
+import 'package:algo_x/bloc/splash_screen_bloc/splash_screen_bloc.dart';
+import 'package:algo_x/bloc/splash_screen_bloc/splash_screen_event.dart';
+import 'package:algo_x/ui/splash_screen.dart';
+import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/routes.dart';
+import 'package:algo_x/utils/scroll_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  AppLocator.setup();
+
   runApp(const MyApp());
 }
 
