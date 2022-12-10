@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class NavigationService {
   late GlobalKey<NavigatorState> navigationKey;
 
@@ -14,8 +13,12 @@ class NavigationService {
     return navigationKey.currentState!.pushReplacementNamed(rn);
   }
 
-  Future<dynamic> navigateTo(String rn) {
-    return navigationKey.currentState!.pushNamed(rn);
+  Future<dynamic> navigateAndSetRoot(String rn) {
+    return navigationKey.currentState!.pushReplacementNamed(rn);
+  }
+
+  Future<dynamic> navigateTo(String rn, {dynamic args}) {
+    return navigationKey.currentState!.pushNamed(rn, arguments: args);
   }
 
   Future<dynamic> navigateToRoute(MaterialPageRoute rn) {

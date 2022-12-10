@@ -18,6 +18,6 @@ class StartScreenBloc extends Bloc<StartScreenEvent, StartState> {
     await NavigationService.instance.navigateTo(Routes.createWallet);
   }
 
-  void _onIHaveExistinAccounPressed(
+  void _onIHaveExistingAccounPressed(
       CreatePressed event, Emitter<StartScreenEvent> emit) {}
 }

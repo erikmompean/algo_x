@@ -14,7 +14,15 @@ class PureStakeService {
     return repository.loadAccount(binaryKey);
   }
 
-  Future<String> sendTransaction(Account account, Uint8List address) async {
-    return repository.sendTransaction(account, address);
+  Future<String> sendTransaction(Account account, Uint8List address, int microAlgos) async {
+    return repository.sendTransaction(account, address, microAlgos);
+  }
+
+  Future<TransactionParams> getSuggestedTransactionParams() async {
+    return repository.getSuggestedTransactionParams();
+  }
+
+  Future<bool?> checkValidAccount(String address) async {
+    return repository.checkValidAccount(address);
   }
 }

@@ -44,7 +44,7 @@ class FirstPage extends StatelessWidget {
                 ),
                 AppText(
                   text:
-                      ' Esta tendrá una serie de 24 palabras super secretas que no debes compartir con nadie.',
+                      ' Esta tendrá una serie de 25 palabras super secretas que no debes compartir con nadie.',
                   color: AppColors.secondary,
                   textAlign: TextAlign.center,
                   size: 20,

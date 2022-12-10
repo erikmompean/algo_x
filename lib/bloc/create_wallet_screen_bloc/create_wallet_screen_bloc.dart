@@ -1,7 +1,7 @@
+import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_event.dart';
 import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_state.dart';
-import 'package:algo_x/services/encrypted_preferences_service.dart';
 import 'package:algo_x/services/purestake_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,10 +11,10 @@ class CreateWalletScreenBloc
 
   // Account get account => _account ?? createWallet();
   final PureStakeService _pureStakeService;
-  final EncryptedPreferencesService _encryptedPreferencesService;
+  final EncryptedPreferencesRepository _encryptedPreferencesRepository;
 
   CreateWalletScreenBloc(
-      this._pureStakeService, this._encryptedPreferencesService)
+      this._pureStakeService, this._encryptedPreferencesRepository)
       : super(CreateWalletInitState()) {
     on<CreateWalletInitEvent>(_onCreatedPressed);
     on<FinishedCreateEvent>(_onFinish);
@@ -36,7 +36,7 @@ class CreateWalletScreenBloc
   Future<void> _onFinish(
       FinishedCreateEvent event, Emitter<CreateWalletState> emit) async {
     emit(CreateWalletInitState());
-    await _encryptedPreferencesService.saveAccount(_account!);
+    await _encryptedPreferencesRepository.saveAccount(_account!);
     emit(FinishedCreateAccountState());
   }
 

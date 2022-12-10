@@ -8,7 +8,14 @@ import 'app_top_icon_button.dart';
 class AppTopBar extends StatelessWidget {
   final List<Widget>? rightChildrens;
   final bool hasBackButton;
-  const AppTopBar({super.key, this.rightChildrens, this.hasBackButton = true});
+  final String title;
+  final Widget? leftIcon;
+  const AppTopBar(
+      {super.key,
+      required this.title,
+      this.rightChildrens,
+      this.leftIcon,
+      this.hasBackButton = true});
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +35,13 @@ class AppTopBar extends StatelessWidget {
                       onTap: () => NavigationService.instance.goback(),
                     ),
                   ),
+                  leftIcon ?? Container(),
                 ],
               ),
             ),
-            const Expanded(
+            Expanded(
               child: AppText(
-                text: 'Crear Cartera',
+                text: title,
                 textAlign: TextAlign.center,
                 color: AppColors.text,
                 size: 18,

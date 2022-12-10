@@ -2,7 +2,7 @@ import 'package:algo_x/bloc/bloc_utils/comon_states.dart';
 import 'package:algo_x/bloc/splash_screen_bloc/splash_screen_event.dart';
 import 'package:algo_x/bloc/splash_screen_bloc/splash_screen_state.dart';
 import 'package:algo_x/locators/app_locator.dart';
-import 'package:algo_x/services/encrypted_preferences_service.dart';
+import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:algo_x/utils/navigator_service.dart';
 import 'package:algo_x/utils/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,8 +20,9 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
       SplashScreenEvent event, Emitter<SplashScreenState> emit) async {
     AppLocator.setup();
 
-    String? privateKeys = await AppLocator.locate<EncryptedPreferencesService>()
-        .retrieveAccount();
+    List<int>? privateKeys =
+        await AppLocator.locate<EncryptedPreferencesRepository>()
+            .retrieveAccount();
 
     emit(SplashFinishedLoadingState(privateKeys == null));
   }

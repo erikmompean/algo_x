@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
   final String text;
-  final double? size;
+  final double textSize;
+  final double padding;
   final Color? color;
-  final FontWeight? fontWeight;
+  final FontWeight fontWeight;
   final void Function()? onPressed;
 
   const AppButton({
     super.key,
     required this.text,
-    this.size,
-    this.fontWeight,
+    this.textSize = 20,
+    this.padding = 12,
+    this.fontWeight = FontWeight.w400,
     this.color,
     this.onPressed,
   });
@@ -21,11 +23,12 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: TextButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.all(16.0),
-          textStyle: const TextStyle(fontSize: 20),
-          shape: const StadiumBorder()),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        padding: EdgeInsets.all(padding),
+        textStyle: TextStyle(fontSize: textSize, fontWeight: fontWeight),
+        shape: const StadiumBorder(),
+      ),
       onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

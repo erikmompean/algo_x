@@ -24,17 +24,21 @@ class CreateWalletScreen extends StatelessWidget {
     var bloc = BlocProvider.of<CreateWalletScreenBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.background,
-      floatingActionButton: FloatingActionButton(onPressed: () => _pageController.jumpToPage(25),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _pageController.jumpToPage(25),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            const AppTopBar(),
+            const AppTopBar(
+              title: 'Crear Cartera',
+            ),
             BlocListener(
               bloc: bloc,
-              listener: (context, state) {
-                if(state is FinishedCreateAccountState) {
-                  NavigationService.instance.navigateToReplacement(Routes.home);
+              listener: (context, state) async {
+                if (state is FinishedCreateAccountState) {
+                  await NavigationService.instance.navigateAndSetRoot(Routes.home);
                 }
               },
               child: BlocBuilder(
@@ -99,7 +103,8 @@ class CreateWalletScreen extends StatelessWidget {
         ),
         AppButton(
           text: 'Next',
-          onPressed: () => BlocProvider.of<CreateWalletScreenBloc>(context).add(FinishedCreateEvent()),
+          onPressed: () => BlocProvider.of<CreateWalletScreenBloc>(context)
+              .add(FinishedCreateEvent()),
         ),
       ],
     );

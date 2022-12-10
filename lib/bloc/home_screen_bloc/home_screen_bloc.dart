@@ -1,64 +1,78 @@
+import 'dart:async';
+
+import 'package:algo_x/models/account_information_explorer.dart';
+import 'package:algo_x/models/transaction_explorer.dart';
+import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
+import 'package:algo_x/services/algo_explorer_service.dart';
+import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/routes.dart';
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:algo_x/bloc/home_screen_bloc/home_screen_event.dart';
 import 'package:algo_x/bloc/home_screen_bloc/home_screen_state.dart';
 import 'package:algo_x/services/purestake_service.dart';
-import 'package:algo_x/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
-  final String apiKey = 'kPDlC2B5S18AwENiuk0NH7mr7iD707vG2zKMdHRV';
-  final String apiUrl = 'https://testnet-algorand.api.purestake.io/ps2';
-
-  Algorand? _algorand;
-  Account? account1;
-  Account? account2;
-  String? _transactionID;
-  PureStakeService pureStakeService;
-  HomeScreenBloc(this.pureStakeService) : super(HomeScreenState());
-
-  Future<void> createWallet() async {
-    var account = await pureStakeService.createWallet();
+  Account? _account;
+  List<TransactionExplorer>? _transactions;
+  Timer? _timer;
+  final PureStakeService _pureStakeService;
+  final EncryptedPreferencesRepository _encryptedPreferencesRepository;
+  final AlgoExplorerService _algoExplorerService;
+  AccountInformationExplorer? accountInformation;
+  HomeScreenBloc(this._pureStakeService, this._encryptedPreferencesRepository,
+      this._algoExplorerService)
+      : super(HomeInitState()) {
+    on<HomeInitEvent>((event, emit) => _initialize(event, emit));
+    on<HomeAddMoneyEvent>((event, emit) => _addMoney(event, emit));
+    on<HomeSetupEvent>((event, emit) => _onSetup(event, emit));
+    on<HomeOnExistPressed>((event, emit) => _onExistPressed(event, emit));
   }
 
-  Future<void> loadAccounts() async {
-    loadFirstAccount();
-    loadSecondAccount();
+  Future<void> _initialize(
+      HomeInitEvent event, Emitter<HomeScreenState> emit) async {
+    var privateKeys = await _encryptedPreferencesRepository.retrieveAccount();
+
+    _account = await _pureStakeService.loadAccount(privateKeys!);
+    await _setup();
+    var bloc = this;
+
+    _timer ??= Timer.periodic(
+        const Duration(seconds: 20),
+        (Timer t) async =>
+            await _setup().then((value) => bloc.add(HomeSetupEvent())));
+
+    emit(HomeAccountInformationLoadedState(
+        _account!, accountInformation!, _transactions ?? []));
   }
 
-  Future<void> loadFirstAccount() async {
-    if (_algorand != null) {
-      account1 = account1 = await _algorand!
-          .loadAccountFromSeed(Utils.firstAccountPrivateBinaryKey);
-      _printAccount(account1!);
-    } else {
-      print('error');
-    }
+  _onSetup(HomeSetupEvent event, Emitter<HomeScreenState> emit) async {
+    await _setup();
+
+    emit(HomeAccountInformationLoadedState(
+        _account!, accountInformation!, _transactions ?? []));
   }
 
-  Future<void> loadSecondAccount() async {
-    if (_algorand != null) {
-      account2 = await _algorand!
-          .loadAccountFromSeed(Utils.secondAccountPrivateBinaryKey);
-      _printAccount(account2!);
-    } else {
-      print('error');
-    }
+  _onExistPressed(
+      HomeOnExistPressed event, Emitter<HomeScreenState> emit) async {
+    _encryptedPreferencesRepository.removeAccount();
+
+    NavigationService.instance.navigateAndSetRoot(Routes.start);
   }
 
-  Future<void> sendTransaction() async {
-    if (_algorand != null) {
-      _transactionID = await _algorand!.sendPayment(
-          account: account1!,
-          recipient: account2!.address,
-          amount: Algo.toMicroAlgos(3));
-      print('transactionId: $_transactionID');
-    } else {
-      print('error');
-    }
+  Future<void> _setup() async {
+    accountInformation = await _algoExplorerService
+        .retrieveAccountInformation(_account!.publicAddress);
+    _printAccount(_account!);
+
+    _transactions = await _algoExplorerService
+        .retrieveTransacctions(_account!.publicAddress);
+    _printAccount(_account!);
   }
 
-  void debug() {
-    print('DEBUUUG');
+  Future<void> _addMoney(
+      HomeAddMoneyEvent event, Emitter<HomeScreenState> emit) async {
+    NavigationService.instance.navigateTo(Routes.addMoney);
   }
 
   Future<void> _printAccount(Account printAccount) async {
@@ -73,13 +87,23 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-  }
-
-  @override
-  Future<void> initialize() {
-    // TODO: implement initialize
-    throw UnimplementedError();
+  Future<void> close() {
+    _timer?.cancel();
+    _timer = null;
+    return super.close();
   }
 }
+
+
+
+  // Future<void> sendTransaction() async {
+  //   if (_algorand != null) {
+  //     _transactionID = await _algorand!.sendPayment(
+  //         account: account1!,
+  //         recipient: account2!.address,
+  //         amount: Algo.toMicroAlgos(3));
+  //     print('transactionId: $_transactionID');
+  //   } else {
+  //     print('error');
+  //   }
+  // }
