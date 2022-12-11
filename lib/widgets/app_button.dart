@@ -23,7 +23,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: TextButton.styleFrom(
-        backgroundColor: AppColors.primary,
+        backgroundColor: color ?? AppColors.primary,
         foregroundColor: Colors.white,
         padding: EdgeInsets.all(padding),
         textStyle: TextStyle(fontSize: textSize, fontWeight: fontWeight),

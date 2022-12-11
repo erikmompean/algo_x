@@ -32,7 +32,7 @@ class AppTopBar extends StatelessWidget {
                     visible: hasBackButton,
                     child: AppTopIconButton(
                       icon: Icons.keyboard_arrow_left,
-                      onTap: () => NavigationService.instance.goback(),
+                      onTap: () => NavigationService.instance.goBack(),
                     ),
                   ),
                   leftIcon ?? Container(),

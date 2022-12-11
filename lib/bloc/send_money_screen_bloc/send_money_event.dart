@@ -20,6 +20,7 @@ class SendMoneyToAmountPagePressedEvent extends SendMoneyScreenEvent {
     return '$address, $amount, $currentPage';
   }
 }
+
 class SendMoneyFinalStepPressedEvent extends SendMoneyScreenEvent {
   final int currentPage;
   final String address;
@@ -35,4 +36,10 @@ class SendMoneyFinalStepPressedEvent extends SendMoneyScreenEvent {
   String toString() {
     return '$address, $amount, $currentPage';
   }
+}
+
+class SendMoneyQRFoundEvent extends SendMoneyScreenEvent {
+  final String qrCode;
+
+  SendMoneyQRFoundEvent(this.qrCode);
 }

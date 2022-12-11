@@ -276,7 +276,6 @@ class HomeScreen extends StatelessWidget {
         ),
       );
     } else {
-      double rowSize = size.width * 0.8 > 500 ? 400 : size.width * 0.8;
       return Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -299,6 +298,7 @@ class HomeScreen extends StatelessWidget {
               ),
               ListView.separated(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: transactions.length,
                 separatorBuilder: (context, index) => const SizedBox(
                   height: 10,
@@ -333,7 +333,9 @@ class HomeScreen extends StatelessWidget {
                           AppText(
                             text: transaction.amount.toAlgorandString(),
                             color: transaction
-                                .imSender(state.account.publicAddress) ? Colors.red.shade400 : Colors.green.shade400,
+                                    .imSender(state.account.publicAddress)
+                                ? Colors.red.shade400
+                                : Colors.green.shade400,
                             softWrap: false,
                             maxLines: 1,
                             textOverflow: TextOverflow.fade,

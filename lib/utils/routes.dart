@@ -1,20 +1,24 @@
-import 'package:algo_x/bloc/add_money_screen_bloc/send_money_screen_bloc.dart';
-import 'package:algo_x/bloc/add_money_screen_bloc/send_money_event.dart';
+import 'package:algo_x/bloc/send_money_screen_bloc/send_money_screen_bloc.dart';
+import 'package:algo_x/bloc/send_money_screen_bloc/send_money_event.dart';
 import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_bloc.dart';
 import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_event.dart';
 import 'package:algo_x/bloc/home_screen_bloc/home_screen_bloc.dart';
 import 'package:algo_x/bloc/home_screen_bloc/home_screen_event.dart';
 import 'package:algo_x/bloc/start_wallet_screen_bloc/start_screen_bloc.dart';
+import 'package:algo_x/bloc/transaction_preview_bloc/transaction_preview_screen_bloc.dart';
 import 'package:algo_x/locators/app_locator.dart';
 import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:algo_x/services/algo_explorer_service.dart';
 import 'package:algo_x/services/purestake_service.dart';
+import 'package:algo_x/ui/qr_scanner_screen.dart';
 import 'package:algo_x/ui/qr_screen.dart';
+import 'package:algo_x/ui/screen_bundles/transaction_preview_bundle.dart';
 import 'package:algo_x/ui/send_money_screen.dart';
 import 'package:algo_x/ui/create_wallet_screen.dart';
 import 'package:algo_x/ui/home_screen.dart';
 import 'package:algo_x/ui/not_found_screen.dart';
 import 'package:algo_x/ui/start_screen.dart';
+import 'package:algo_x/ui/transaction_preview_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,6 +28,9 @@ class Routes {
   static const String start = '/start';
   static const String addMoney = '/add_money';
   static const String qrScreen = '/qr_screen';
+  static const String transacctionPreviewScreen =
+      '/transacction_preview_screen';
+  static const String qrScannerScreen = '/qr_scanner_screen';
 
   static Route generateAppRoute(RouteSettings routeSettings) {
     var routePath = _getRoutePath(routeSettings);
@@ -70,9 +77,32 @@ class Routes {
           ),
           transitionsBuilder: transition,
         );
+      case transacctionPreviewScreen:
+        final TransactionPreviewBundle bundle =
+            routeSettings.arguments as TransactionPreviewBundle;
+        return PageRouteBuilder(
+          pageBuilder: (context, _, __) =>
+              BlocProvider<TransactionPreviewScreenBloc>(
+            create: (_) => TransactionPreviewScreenBloc(
+              AppLocator.locate<PureStakeService>(),
+              AppLocator.locate<EncryptedPreferencesRepository>(),
+              AppLocator.locate<AlgoExplorerService>(),
+              bundle.address,
+              bundle.amount,
+            ),
+            child: const TransactionPreviewScreen(),
+          ),
+          transitionsBuilder: transition,
+        );
       case qrScreen:
         return PageRouteBuilder(
-          pageBuilder: (context, _, __) => QrScreen(address: routeSettings.arguments as String),
+          pageBuilder: (context, _, __) =>
+              QrScreen(address: routeSettings.arguments as String),
+          transitionsBuilder: transition,
+        );
+      case qrScannerScreen:
+        return PageRouteBuilder(
+          pageBuilder: (context, _, __) => const QRViewExample(),
           transitionsBuilder: transition,
         );
     }

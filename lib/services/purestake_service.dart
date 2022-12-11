@@ -15,7 +15,7 @@ class PureStakeService {
   }
 
   Future<String> sendTransaction(Account account, Uint8List address, int microAlgos) async {
-    return repository.sendTransaction(account, address, microAlgos);
+    return await repository.sendTransaction(account, address, microAlgos);
   }
 
   Future<TransactionParams> getSuggestedTransactionParams() async {

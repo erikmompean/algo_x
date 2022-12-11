@@ -25,9 +25,9 @@ class TransactionExplorer {
 
   String transactionSendToString(String myAddress) {
     if (imSender(myAddress)) {
-      return 'to: $receiver';
+      return 'Receptor: $receiver';
     } else {
-      return 'from: $sender';
+      return 'Emisor: $sender';
     }
   }
 }

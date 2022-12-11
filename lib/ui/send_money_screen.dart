@@ -1,7 +1,9 @@
-import 'package:algo_x/bloc/add_money_screen_bloc/send_money_event.dart';
-import 'package:algo_x/bloc/add_money_screen_bloc/send_money_screen_bloc.dart';
-import 'package:algo_x/bloc/add_money_screen_bloc/send_money_state.dart';
+import 'package:algo_x/bloc/send_money_screen_bloc/send_money_event.dart';
+import 'package:algo_x/bloc/send_money_screen_bloc/send_money_screen_bloc.dart';
+import 'package:algo_x/bloc/send_money_screen_bloc/send_money_state.dart';
 import 'package:algo_x/locators/app_colors.dart';
+import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/routes.dart';
 import 'package:algo_x/widgets/app_button.dart';
 import 'package:algo_x/widgets/app_circle_button.dart';
 import 'package:algo_x/widgets/app_text.dart';
@@ -9,6 +11,7 @@ import 'package:algo_x/widgets/app_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:io' show Platform;
 
 class SendMoneyScreen extends StatelessWidget {
   final PageController _pageController = PageController();
@@ -38,6 +41,10 @@ class SendMoneyScreen extends StatelessWidget {
         },
         child: BlocBuilder(
           bloc: bloc,
+          buildWhen: ((previous, current) {
+            return current is! SendMoneyGoBackState &&
+                current is! SendMoneyAddresPagePassedState;
+          }),
           builder: (context, state) {
             return SafeArea(
               child: Padding(
@@ -88,8 +95,14 @@ class SendMoneyScreen extends StatelessWidget {
         BlocBuilder(
           bloc: BlocProvider.of<SendMoneyScreenBloc>(context),
           builder: (context, state) {
-            if (state is SendMoneyInsuficientAmountState) {
-              return const AppText(text: 'No tienes suficientes fondos');
+            if (state is SendMoneyAmountErrorState) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: AppText(
+                  text: state.errorMessage,
+                  color: Colors.red.shade400,
+                ),
+              );
             }
 
             return Container();
@@ -147,20 +160,43 @@ class SendMoneyScreen extends StatelessWidget {
           ],
         ),
         BlocBuilder(
-            bloc: bloc,
-            builder: (context, state) {
-              if (state is SendMoneyAddressEmtpyErrorState) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: AppText(
-                    text: 'Debe rellenar el campo dirección',
-                    color: Colors.red.shade400,
-                  ),
-                );
-              }
+          bloc: bloc,
+          builder: (context, state) {
+            if (state is SendMoneyAddressEmtpyErrorState) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: AppText(
+                  text: 'Debe rellenar el campo dirección',
+                  color: Colors.red.shade400,
+                ),
+              );
+            }
 
-              return Container();
-            }),
+            return Container();
+          },
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Platform.isAndroid || Platform.isIOS
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Spacer(),
+                  AppButton(
+                    text: 'Usar QR',
+                    textSize: 15,
+                    onPressed: () async {
+                      String? result = await NavigationService.instance
+                          .navigateTo(Routes.qrScannerScreen);
+                      if (result != null) {
+                        _addresController.text = result;
+                      }
+                    },
+                  ),
+                ],
+              )
+            : Container(),
         const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,6 +216,9 @@ class SendMoneyScreen extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }

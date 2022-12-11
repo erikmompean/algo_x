@@ -38,7 +38,7 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     var bloc = this;
 
     _timer ??= Timer.periodic(
-        const Duration(seconds: 20),
+        const Duration(seconds: 10),
         (Timer t) async =>
             await _setup().then((value) => bloc.add(HomeSetupEvent())));
 
@@ -63,27 +63,14 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   Future<void> _setup() async {
     accountInformation = await _algoExplorerService
         .retrieveAccountInformation(_account!.publicAddress);
-    _printAccount(_account!);
 
     _transactions = await _algoExplorerService
         .retrieveTransacctions(_account!.publicAddress);
-    _printAccount(_account!);
   }
 
   Future<void> _addMoney(
       HomeAddMoneyEvent event, Emitter<HomeScreenState> emit) async {
     NavigationService.instance.navigateTo(Routes.addMoney);
-  }
-
-  Future<void> _printAccount(Account printAccount) async {
-    var seedPhrase = await printAccount.seedPhrase;
-    var private = await printAccount.keyPair.extractPrivateKeyBytes();
-    print('address: ${printAccount.address}');
-    print('seedPhrase: ${seedPhrase.toString()}');
-    print('publicKey: ${printAccount.publicKey}');
-    print('publicAddress: ${printAccount.publicAddress}');
-    print('private: ${private.toString()}');
-    print('----------------------------------------------');
   }
 
   @override
