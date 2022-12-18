@@ -178,8 +178,7 @@ class HomeScreen extends StatelessWidget {
                                       children: [
                                         AppDeviceBuilder(
                                             builder: (context, device, size) {
-                                          print(device.toString());
-                                          print(size.width.toString());
+
                                           return AppText(
                                             text: 'Enviar Dinero',
                                             size: device == Devices.mobile

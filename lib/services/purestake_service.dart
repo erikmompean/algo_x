@@ -14,7 +14,8 @@ class PureStakeService {
     return repository.loadAccount(binaryKey);
   }
 
-  Future<String> sendTransaction(Account account, Uint8List address, int microAlgos) async {
+  Future<String> sendTransaction(
+      Account account, Uint8List address, int microAlgos) async {
     return await repository.sendTransaction(account, address, microAlgos);
   }
 
@@ -24,5 +25,9 @@ class PureStakeService {
 
   Future<bool?> checkValidAccount(String address) async {
     return repository.checkValidAccount(address);
+  }
+
+  Future<Account?> recoverAccount(List<String> words) async {
+    return await repository.recoverAccount(words);
   }
 }

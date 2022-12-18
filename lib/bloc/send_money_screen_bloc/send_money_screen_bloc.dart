@@ -29,6 +29,7 @@ class SendMoneyScreenBloc
     on<SendMoneyFinalStepPressedEvent>(
         (event, emit) => _finalStep(event, emit));
     on<SendMoneyQRFoundEvent>((event, emit) => _qrFoundEvent(event, emit));
+
   }
 
   Future<void> _initialize(
@@ -55,6 +56,9 @@ class SendMoneyScreenBloc
         if (_accountInfo!.amount < toSend) {
           emit(SendMoneyAmountErrorState(
               errorMessage: 'No tienes suficiente dinero'));
+        } else if(toSend < 500000) {
+          emit(SendMoneyAmountErrorState(
+              errorMessage: 'La cantidad tiene que superar los 0.5 ALGO'));
         } else {
           NavigationService.instance.navigateTo(
               Routes.transacctionPreviewScreen,
@@ -74,6 +78,7 @@ class SendMoneyScreenBloc
       SendMoneyQRFoundEvent event, Emitter<SendMoneyScreenState> emit) async {
     emit(SendMoneyQrUpdateState(event.qrCode));
   }
+
 
   Future<void> _onToAmountButtonPressed(SendMoneyToAmountPagePressedEvent event,
       Emitter<SendMoneyScreenState> emit) async {

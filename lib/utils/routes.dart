@@ -1,3 +1,4 @@
+import 'package:algo_x/bloc/recover_account_scren_bloc/recover_account_screen_bloc.dart';
 import 'package:algo_x/bloc/send_money_screen_bloc/send_money_screen_bloc.dart';
 import 'package:algo_x/bloc/send_money_screen_bloc/send_money_event.dart';
 import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:algo_x/services/algo_explorer_service.dart';
 import 'package:algo_x/services/purestake_service.dart';
 import 'package:algo_x/ui/qr_scanner_screen.dart';
 import 'package:algo_x/ui/qr_screen.dart';
+import 'package:algo_x/ui/recover_account_screen.dart';
 import 'package:algo_x/ui/screen_bundles/transaction_preview_bundle.dart';
 import 'package:algo_x/ui/send_money_screen.dart';
 import 'package:algo_x/ui/create_wallet_screen.dart';
@@ -31,6 +33,7 @@ class Routes {
   static const String transacctionPreviewScreen =
       '/transacction_preview_screen';
   static const String qrScannerScreen = '/qr_scanner_screen';
+  static const String recoverAccountScreen = '/recover_account_screen';
 
   static Route generateAppRoute(RouteSettings routeSettings) {
     var routePath = _getRoutePath(routeSettings);
@@ -91,6 +94,18 @@ class Routes {
               bundle.amount,
             ),
             child: const TransactionPreviewScreen(),
+          ),
+          transitionsBuilder: transition,
+        );
+      case recoverAccountScreen:
+        return PageRouteBuilder(
+          pageBuilder: (context, _, __) =>
+              BlocProvider<RecoverAccountScreenBloc>(
+            create: (_) => RecoverAccountScreenBloc(
+              AppLocator.locate<PureStakeService>(),
+              AppLocator.locate<EncryptedPreferencesRepository>(),
+            ),
+            child: RecoverAccountScreen(),
           ),
           transitionsBuilder: transition,
         );

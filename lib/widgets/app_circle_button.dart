@@ -15,7 +15,7 @@ class AppCircleButton extends StatelessWidget {
     this.size = 20,
     this.padding = 12,
     this.fontWeight = FontWeight.w400,
-    this.color,
+    this.color = AppColors.primary,
     this.onPressed,
   });
 
@@ -26,7 +26,7 @@ class AppCircleButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
         padding: EdgeInsets.all(padding),
-        backgroundColor: AppColors.primary,
+        backgroundColor: color,
       ),
       child: Icon(
         icon,

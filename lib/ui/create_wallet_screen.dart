@@ -24,9 +24,9 @@ class CreateWalletScreen extends StatelessWidget {
     var bloc = BlocProvider.of<CreateWalletScreenBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.background,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _pageController.jumpToPage(25),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => _pageController.jumpToPage(25),
+      // ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -38,7 +38,8 @@ class CreateWalletScreen extends StatelessWidget {
               bloc: bloc,
               listener: (context, state) async {
                 if (state is FinishedCreateAccountState) {
-                  await NavigationService.instance.navigateAndSetRoot(Routes.home);
+                  await NavigationService.instance
+                      .navigateAndSetRoot(Routes.home);
                 }
               },
               child: BlocBuilder(
@@ -52,7 +53,8 @@ class CreateWalletScreen extends StatelessWidget {
                   } else if (state is CreateWalletIdle) {
                     List<Widget> pages = [];
                     pages.add(firstPage());
-                    pages.addAll(generateWords(state.seedPhrase));
+                    pages.add(middlePage(state));
+                    // pages.addAll(generateWords(state.seedPhrase));
                     pages.add(lastPage(context));
                     return Expanded(
                       child: PageView(
@@ -94,15 +96,78 @@ class CreateWalletScreen extends StatelessWidget {
     return pages;
   }
 
+  Widget middlePage(CreateWalletIdle state) {
+    return Row(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                const AppText(
+                  text:
+                      'Apunta las siguientes palabras. A poder ser que este sea un medio fisico como una libreta o una hoja.',
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  constraints: const BoxConstraints(maxWidth: 150),
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.seedPhrase.length,
+                    itemBuilder: (context, index) {
+                      String word = state.seedPhrase[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.background2,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: AppText(text: '$index - $word'),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                AppButton(
+                  text: 'Siguiente',
+                  onPressed: () => _pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.fastOutSlowIn),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget lastPage(BuildContext context) {
     return Column(
       children: [
-        const AppText(text: 'bla bla bla bla'),
+        const AppText(
+            text:
+                'Ahora guarda bien estas palabras, recuerda si las pierdes no podrás recuperar la cuenta.'),
         const SizedBox(
-          width: 20,
+          height: 20,
         ),
         AppButton(
-          text: 'Next',
+          text: 'Finalizar',
           onPressed: () => BlocProvider.of<CreateWalletScreenBloc>(context)
               .add(FinishedCreateEvent()),
         ),

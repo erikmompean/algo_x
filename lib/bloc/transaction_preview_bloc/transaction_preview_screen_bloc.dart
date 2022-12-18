@@ -33,6 +33,8 @@ class TransactionPreviewScreenBloc
         (event, emit) => _backPagePressed(event, emit));
     on<TransactionPreviewOnSendPressed>(
         (event, emit) => _onSendPressed(event, emit));
+    on<TransactionPreviewOnCancelPressed>(
+        (event, emit) => _onCancelPressed(event, emit));
   }
 
   Future<void> _backPagePressed(TransactionPreviewBackPageEvent event,
@@ -48,10 +50,9 @@ class TransactionPreviewScreenBloc
       var privateKeys = await _encryptedPreferencesRepository.retrieveAccount();
 
       account = await _pureStakeService.loadAccount(privateKeys!);
-      var hola = await _pureStakeService.sendTransaction(
+      var transactionId = await _pureStakeService.sendTransaction(
           account!, Address.decodeAddress(_address), _amount);
-      print(hola);
-      emit(TransactionPreviewAcceptedPaymentState());
+      emit(TransactionPreviewAcceptedPaymentState(transactionId));
       await Future.delayed(const Duration(seconds: 3));
       NavigationService.instance.navigateAndSetRoot(Routes.home);
     } catch (ex) {
@@ -59,8 +60,10 @@ class TransactionPreviewScreenBloc
     }
   }
 
-  Future<void> _onCancelPressed(TransactionPreviewOnSendPressed event,
-      Emitter<TransactionPreviewScreenState> emit) async {}
+  Future<void> _onCancelPressed(TransactionPreviewOnCancelPressed event,
+      Emitter<TransactionPreviewScreenState> emit) async {
+    NavigationService.instance.goBack();
+  }
 
   bool _validateAddress(String address) {
     return true;

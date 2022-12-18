@@ -8,16 +8,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class StartScreenBloc extends Bloc<StartScreenEvent, StartState> {
   PureStakeService pureStakeService;
   StartScreenBloc(this.pureStakeService) : super(InitiatlStartState()) {
-    on<CreatePressed>((event, emit) => _onCreatedPressed(event, emit));
-    on<IHaveExistingAccountPressed>((event, emit) => null);
+    on<StartScreenCreatePressed>(
+        (event, emit) => _onCreatedPressed(event, emit));
+    on<StartScrenRecoverAccountPressed>(
+        (event, emit) => _onIHaveExistingAccounPressed(event, emit));
   }
 
-  Future<void> initialize() async {}
-
-  Future<void> _onCreatedPressed(CreatePressed event, Emitter<StartState> emit) async {
+  Future<void> _onCreatedPressed(
+      StartScreenCreatePressed event, Emitter<StartState> emit) async {
     await NavigationService.instance.navigateTo(Routes.createWallet);
   }
 
-  void _onIHaveExistingAccounPressed(
-      CreatePressed event, Emitter<StartScreenEvent> emit) {}
+  Future<void> _onIHaveExistingAccounPressed( 
+      StartScrenRecoverAccountPressed event, Emitter<StartState> emit) async {
+    NavigationService.instance.navigateTo(Routes.recoverAccountScreen);
+  }
 }

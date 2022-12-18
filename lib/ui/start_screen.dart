@@ -35,10 +35,15 @@ class StartScreen extends StatelessWidget {
           AppButton(
             text: 'Crear una Cartera',
             onPressed: () =>
-                context.read<StartScreenBloc>().add(CreatePressed()),
+                context.read<StartScreenBloc>().add(StartScreenCreatePressed()),
           ),
           const SizedBox(height: 20),
-          const AppButton(text: 'Ya tengo una Cartera'),
+          AppButton(
+            text: 'Ya tengo una Cartera',
+            onPressed: () => context
+                .read<StartScreenBloc>()
+                .add(StartScrenRecoverAccountPressed()),
+          ),
         ],
       )),
     );

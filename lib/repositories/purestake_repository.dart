@@ -35,12 +35,6 @@ class PureStakeRepository {
     var seedPhrase = await account.seedPhrase;
     var private = await account.keyPair.extractPrivateKeyBytes();
 
-    print('address: ${account.address}');
-    print('seedPhrase: ${seedPhrase.toString()}');
-    print('publicKey: ${account.publicKey}');
-    print('publicAddress: ${account.publicAddress}');
-    print('private: ${private.toString()}');
-
     return account;
   }
 
@@ -49,11 +43,11 @@ class PureStakeRepository {
     var seedPhrase = await account.seedPhrase;
     var private = await account.keyPair.extractPrivateKeyBytes();
 
-    print('address: ${account.address}');
-    print('seedPhrase: ${seedPhrase.toString()}');
-    print('publicKey: ${account.publicKey}');
-    print('publicAddress: ${account.publicAddress}');
-    print('private: ${private.toString()}');
+    // print('address: ${account.address}');
+    // print('seedPhrase: ${seedPhrase.toString()}');
+    // print('publicKey: ${account.publicKey}');
+    // print('publicAddress: ${account.publicAddress}');
+    // print('private: ${private.toString()}');
     return account;
   }
 
@@ -84,5 +78,9 @@ class PureStakeRepository {
     }
 
     return true;
+  }
+
+  Future<Account?> recoverAccount(List<String> words) async {
+    return await _algorand.restoreAccount(words);
   }
 }

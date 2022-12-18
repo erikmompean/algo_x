@@ -7,6 +7,10 @@ class TransactionPreviewInitState extends TransactionPreviewScreenState {}
 class TransactionPreviewGoBackState extends TransactionPreviewScreenState {}
 
 class TransactionPreviewAcceptedPaymentState
-    extends TransactionPreviewScreenState {}
+    extends TransactionPreviewScreenState {
+  final String transactionId;
+
+  TransactionPreviewAcceptedPaymentState(this.transactionId);
+}
 
 class TransactionPreviewErrorState extends TransactionPreviewScreenState {}

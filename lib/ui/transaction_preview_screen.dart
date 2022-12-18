@@ -3,6 +3,7 @@ import 'package:algo_x/bloc/transaction_preview_bloc/transaction_preview_screen_
 import 'package:algo_x/bloc/transaction_preview_bloc/transaction_preview_state.dart';
 import 'package:algo_x/locators/app_colors.dart';
 import 'package:algo_x/widgets/app_button.dart';
+import 'package:algo_x/widgets/app_device_builder.dart';
 import 'package:algo_x/widgets/app_text.dart';
 import 'package:algo_x/widgets/app_top_bar.dart';
 import 'package:flutter/material.dart';
@@ -27,34 +28,45 @@ class TransactionPreviewScreen extends StatelessWidget {
             return SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: BlocBuilder(
-                  bloc: bloc,
-                  builder: ((context, state) {
-                    if (state is TransactionPreviewInitState) {
-                      return detailView(bloc);
-                    } else if (state is TransactionPreviewLoadingState) {
-                      return Center(
-                        child: LoadingAnimationWidget.halfTriangleDot(
-                            color: Colors.orange, size: 50),
-                      );
-                    } else if (state
-                        is TransactionPreviewAcceptedPaymentState) {
-                      return Center(
-                        child: AppText(
-                          text: 'Tus Algos se han enviado correctamente',
-                          color: Colors.green.shade400,
-                        ),
-                      );
-                    } else {
-                      return Center(
-                        child: AppText(
-                          text: 'Se ha producido un error',
-                          color: Colors.red.shade400,
-                        ),
-                      );
-                    }
-                    return Container();
-                  }),
+                child: Column(
+                  children: [
+                    Visibility(
+                      visible: state is! TransactionPreviewAcceptedPaymentState,
+                      child: const AppTopBar(
+                        title: 'Detalles',
+                      ),
+                    ),
+                    BlocBuilder(
+                      bloc: bloc,
+                      builder: (context, state) {
+                        if (state is TransactionPreviewInitState) {
+                          return detailView(bloc);
+                        } else if (state is TransactionPreviewLoadingState) {
+                          return Center(
+                            child: LoadingAnimationWidget.halfTriangleDot(
+                                color: Colors.orange, size: 50),
+                          );
+                        } else if (state
+                            is TransactionPreviewAcceptedPaymentState) {
+                          return Center(
+                            child: AppText(
+                              text: 'Tus Algos se han enviado correctamente',
+                              color: Colors.green.shade400,
+                            ),
+                          );
+                        } else {
+                          return Expanded(
+                            child: Center(
+                              child: AppText(
+                                text: 'Se ha producido un error',
+                                color: Colors.red.shade400,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
             );
@@ -65,83 +77,179 @@ class TransactionPreviewScreen extends StatelessWidget {
   }
 
   Widget detailView(TransactionPreviewScreenBloc bloc) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const AppTopBar(
-          title: 'Detalles',
-        ),
-        const AppText(
-          text: 'Dirección de envio',
-          textAlign: TextAlign.left,
-          size: 22,
-          fontWeight: FontWeight.w400,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.background2,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: AppText(text: bloc.address),
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const AppText(
-          text: 'Cantidad',
-          textAlign: TextAlign.left,
-          size: 22,
-          fontWeight: FontWeight.w400,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.background2,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: AppText(text: '${bloc.amount} ALGO'),
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: SizedBox(
-                width: 50,
-                child: AppButton(
-                  text: 'Enviar',
-                  onPressed: () => bloc.add(TransactionPreviewOnSendPressed()),
+    return AppDeviceBuilder(builder: (context, device, size) {
+      if (device == Devices.mobile) {
+        return SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const AppText(
+                text: 'Dirección de envio',
+                textAlign: TextAlign.left,
+                size: 22,
+                fontWeight: FontWeight.w400,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.background2,
+                  borderRadius: BorderRadius.circular(15),
                 ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: AppText(text: bloc.address),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const AppText(
+                text: 'Cantidad',
+                textAlign: TextAlign.left,
+                size: 22,
+                fontWeight: FontWeight.w400,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.background2,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: AppText(text: '${bloc.amount} ALGO'),
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.2),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: 50,
+                        child: AppButton(
+                          text: 'Enviar',
+                          onPressed: () =>
+                              bloc.add(TransactionPreviewOnSendPressed()),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.2),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: AppButton(
+                      text: 'Cancelar',
+                      color: Colors.red.shade400,
+                      onPressed: () =>
+                          bloc.add(TransactionPreviewOnCancelPressed()),
+                    )),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const AppText(
+              text: 'Dirección de envio',
+              textAlign: TextAlign.left,
+              size: 22,
+              fontWeight: FontWeight.w400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.background2,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: AppText(text: bloc.address),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const AppText(
+              text: 'Cantidad',
+              textAlign: TextAlign.left,
+              size: 22,
+              fontWeight: FontWeight.w400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.background2,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: AppText(text: '${bloc.amount} ALGO'),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 200),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: 50,
+                      child: AppButton(
+                        text: 'Enviar',
+                        onPressed: () =>
+                            bloc.add(TransactionPreviewOnSendPressed()),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 200),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: AppButton(
+                    text: 'Cancelar',
+                    color: Colors.red.shade400,
+                    onPressed: () =>
+                        bloc.add(TransactionPreviewOnCancelPressed()),
+                  )),
+                ],
               ),
             ),
           ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            Expanded(
-                child: AppButton(
-              text: 'Cancelar',
-              color: Colors.red.shade400,
-              onPressed: () => bloc.add(TransactionPreviewOnSendPressed()),
-            )),
-          ],
-        ),
-      ],
-    );
+        );
+      }
+    });
   }
 }

@@ -80,17 +80,3 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     return super.close();
   }
 }
-
-
-
-  // Future<void> sendTransaction() async {
-  //   if (_algorand != null) {
-  //     _transactionID = await _algorand!.sendPayment(
-  //         account: account1!,
-  //         recipient: account2!.address,
-  //         amount: Algo.toMicroAlgos(3));
-  //     print('transactionId: $_transactionID');
-  //   } else {
-  //     print('error');
-  //   }
-  // }

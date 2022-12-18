@@ -1,5 +1,5 @@
 abstract class StartScreenEvent {}
 
-class CreatePressed extends StartScreenEvent {}
+class StartScreenCreatePressed extends StartScreenEvent {}
 
-class IHaveExistingAccountPressed extends StartScreenEvent {}
+class StartScrenRecoverAccountPressed extends StartScreenEvent {}
