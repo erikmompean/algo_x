@@ -45,7 +45,8 @@ dependencies:
   http: ^0.13.5
   qr_flutter: ^4.0.0
   qr_code_scanner: ^1.0.1
-  
+  universal_io: ^2.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,7 +68,10 @@ flutter_icons:
   windows:
     generate: true
     image_path: "assets/images/algorand_logo_mark_black.png"
-    icon_size: 256 
+    icon_size: 256
+  web:
+    generate: true
+    image_path: "assets/images/algorand_logo_mark_black.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

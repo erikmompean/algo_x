@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'package:algo_x/utils/navigator_service.dart';
 import 'package:algo_x/widgets/app_circle_button.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +13,7 @@ class QRViewExample extends StatefulWidget {
 
 class _QRViewExampleState extends State<QRViewExample> {
   Barcode? result;
+  bool foundQR = false;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -127,7 +128,8 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        if (result != null) {
+        if (result != null && foundQR == false) {
+          foundQR = true;
           NavigationService.instance.goBack(result: result!.code);
         }
       });

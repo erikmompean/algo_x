@@ -42,17 +42,30 @@ class TransactionPreviewScreen extends StatelessWidget {
                         if (state is TransactionPreviewInitState) {
                           return detailView(bloc);
                         } else if (state is TransactionPreviewLoadingState) {
-                          return Center(
-                            child: LoadingAnimationWidget.halfTriangleDot(
-                                color: Colors.orange, size: 50),
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: LoadingAnimationWidget.halfTriangleDot(
+                                      color: Colors.orange, size: 50),
+                                ),
+                              ),
+                            ],
                           );
                         } else if (state
                             is TransactionPreviewAcceptedPaymentState) {
-                          return Center(
-                            child: AppText(
-                              text: 'Tus Algos se han enviado correctamente',
-                              color: Colors.green.shade400,
-                            ),
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: AppText(
+                                    text:
+                                        'Tus Algos se han enviado correctamente',
+                                    color: Colors.green.shade400,
+                                  ),
+                                ),
+                              ),
+                            ],
                           );
                         } else {
                           return Expanded(

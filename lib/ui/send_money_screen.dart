@@ -11,7 +11,7 @@ import 'package:algo_x/widgets/app_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:io' show Platform;
+import 'package:universal_io/io.dart';
 
 class SendMoneyScreen extends StatelessWidget {
   final PageController _pageController = PageController();

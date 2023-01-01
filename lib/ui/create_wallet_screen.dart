@@ -130,7 +130,7 @@ class CreateWalletScreen extends StatelessWidget {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
-                            child: AppText(text: '$index - $word'),
+                            child: AppText(text: '${index + 1} - $word'),
                           ),
                         ),
                       );
