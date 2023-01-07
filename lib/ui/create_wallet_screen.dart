@@ -4,7 +4,7 @@ import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_state
 import 'package:algo_x/locators/app_colors.dart';
 import 'package:algo_x/ui/create_wallet_pages/first_page.dart';
 import 'package:algo_x/ui/create_wallet_pages/word_page.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/utils/routes.dart';
 import 'package:algo_x/widgets/app_button.dart';
 import 'package:algo_x/widgets/app_text.dart';
@@ -54,7 +54,6 @@ class CreateWalletScreen extends StatelessWidget {
                     List<Widget> pages = [];
                     pages.add(firstPage());
                     pages.add(middlePage(state));
-                    // pages.addAll(generateWords(state.seedPhrase));
                     pages.add(lastPage(context));
                     return Expanded(
                       child: PageView(

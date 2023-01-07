@@ -1,5 +1,5 @@
 import 'package:algo_x/locators/app_colors.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 

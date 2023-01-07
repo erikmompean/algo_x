@@ -2,7 +2,7 @@ import 'package:algo_x/bloc/send_money_screen_bloc/send_money_event.dart';
 import 'package:algo_x/bloc/send_money_screen_bloc/send_money_screen_bloc.dart';
 import 'package:algo_x/bloc/send_money_screen_bloc/send_money_state.dart';
 import 'package:algo_x/locators/app_colors.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/utils/routes.dart';
 import 'package:algo_x/widgets/app_button.dart';
 import 'package:algo_x/widgets/app_circle_button.dart';

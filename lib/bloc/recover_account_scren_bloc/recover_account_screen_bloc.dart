@@ -2,7 +2,7 @@ import 'package:algo_x/bloc/recover_account_scren_bloc/recover_account_event.dar
 import 'package:algo_x/bloc/recover_account_scren_bloc/recover_account_state.dart';
 import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:algo_x/services/purestake_service.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/utils/routes.dart';
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

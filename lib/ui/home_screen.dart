@@ -4,7 +4,7 @@ import 'package:algo_x/bloc/home_screen_bloc/home_screen_state.dart';
 import 'package:algo_x/locators/app_colors.dart';
 import 'package:algo_x/models/transaction_explorer.dart';
 import 'package:algo_x/utils/extends/string_extension.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/utils/routes.dart';
 import 'package:algo_x/widgets/app_device_builder.dart';
 import 'package:algo_x/widgets/app_text.dart';
@@ -178,7 +178,6 @@ class HomeScreen extends StatelessWidget {
                                       children: [
                                         AppDeviceBuilder(
                                             builder: (context, device, size) {
-
                                           return AppText(
                                             text: 'Enviar Dinero',
                                             size: device == Devices.mobile
@@ -286,11 +285,26 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AppText(
-                text: 'Transacciones',
-                textAlign: TextAlign.left,
-                size: 22,
-                fontWeight: FontWeight.w400,
+              Row(
+                children: [
+                  const AppText(
+                    text: 'Transacciones',
+                    textAlign: TextAlign.left,
+                    size: 22,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () => NavigationService.instance.navigateTo(Routes.transactionListScreen),
+                    child: const AppText(
+                      text: 'Ver Todas',
+                      color: AppColors.primary,
+                      textAlign: TextAlign.left,
+                      size: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,

@@ -1,17 +1,17 @@
 import 'package:universal_io/io.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/widgets/app_circle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class QRViewExample extends StatefulWidget {
-  const QRViewExample({Key? key}) : super(key: key);
+class QrScannerScreen extends StatefulWidget {
+  const QrScannerScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
+  State<StatefulWidget> createState() => _QrScannerScreenState();
 }
 
-class _QRViewExampleState extends State<QRViewExample> {
+class _QrScannerScreenState extends State<QrScannerScreen> {
   Barcode? result;
   bool foundQR = false;
   QRViewController? controller;
@@ -36,50 +36,6 @@ class _QRViewExampleState extends State<QRViewExample> {
           Column(
             children: <Widget>[
               Expanded(child: _buildQrView(context)),
-
-              // Expanded(
-              //   flex: 1,
-              //   child: FittedBox(
-              //     fit: BoxFit.contain,
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       children: <Widget>[
-              //         if (result != null)
-              //           Text(
-              //               'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-              //         else
-              //           const Text('Scan a code'),
-
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           crossAxisAlignment: CrossAxisAlignment.center,
-              //           children: <Widget>[
-              //             Container(
-              //               margin: const EdgeInsets.all(8),
-              //               child: ElevatedButton(
-              //                 onPressed: () async {
-              //                   await controller?.pauseCamera();
-              //                 },
-              //                 child: const Text('pause',
-              //                     style: TextStyle(fontSize: 20)),
-              //               ),
-              //             ),
-              //             Container(
-              //               margin: const EdgeInsets.all(8),
-              //               child: ElevatedButton(
-              //                 onPressed: () async {
-              //                   await controller?.resumeCamera();
-              //                 },
-              //                 child: const Text('resume',
-              //                     style: TextStyle(fontSize: 20)),
-              //               ),
-              //             )
-              //           ],
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // )
             ],
           ),
           Align(
@@ -139,7 +95,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     if (!p) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
+        const SnackBar(content: Text('No Permission')),
       );
     }
   }

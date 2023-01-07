@@ -4,7 +4,7 @@ import 'package:algo_x/models/account_information_explorer.dart';
 import 'package:algo_x/models/transaction_explorer.dart';
 import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:algo_x/services/algo_explorer_service.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/utils/routes.dart';
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:algo_x/bloc/home_screen_bloc/home_screen_event.dart';
@@ -14,12 +14,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   Account? _account;
+  AccountInformationExplorer? accountInformation;
   List<TransactionExplorer>? _transactions;
   Timer? _timer;
   final PureStakeService _pureStakeService;
   final EncryptedPreferencesRepository _encryptedPreferencesRepository;
   final AlgoExplorerService _algoExplorerService;
-  AccountInformationExplorer? accountInformation;
   HomeScreenBloc(this._pureStakeService, this._encryptedPreferencesRepository,
       this._algoExplorerService)
       : super(HomeInitState()) {
@@ -65,7 +65,7 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
         .retrieveAccountInformation(_account!.publicAddress);
 
     _transactions = await _algoExplorerService
-        .retrieveTransacctions(_account!.publicAddress);
+        .retrieveTransacctions(_account!.publicAddress, limit: 5);
   }
 
   Future<void> _addMoney(

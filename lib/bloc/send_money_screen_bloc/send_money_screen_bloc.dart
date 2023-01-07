@@ -4,7 +4,7 @@ import 'package:algo_x/models/account_information_explorer.dart';
 import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:algo_x/services/algo_explorer_service.dart';
 import 'package:algo_x/ui/screen_bundles/transaction_preview_bundle.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/utils/routes.dart';
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:algo_x/services/purestake_service.dart';

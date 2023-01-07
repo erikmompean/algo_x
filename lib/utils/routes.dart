@@ -6,6 +6,7 @@ import 'package:algo_x/bloc/create_wallet_screen_bloc/create_wallet_screen_event
 import 'package:algo_x/bloc/home_screen_bloc/home_screen_bloc.dart';
 import 'package:algo_x/bloc/home_screen_bloc/home_screen_event.dart';
 import 'package:algo_x/bloc/start_wallet_screen_bloc/start_screen_bloc.dart';
+import 'package:algo_x/bloc/transaction_list_bloc/transaction_list_bloc.dart';
 import 'package:algo_x/bloc/transaction_preview_bloc/transaction_preview_screen_bloc.dart';
 import 'package:algo_x/locators/app_locator.dart';
 import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
@@ -21,6 +22,7 @@ import 'package:algo_x/ui/home_screen.dart';
 import 'package:algo_x/ui/not_found_screen.dart';
 import 'package:algo_x/ui/start_screen.dart';
 import 'package:algo_x/ui/transaction_preview_screen.dart';
+import 'package:algo_x/ui/transactions_list_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,6 +36,7 @@ class Routes {
       '/transacction_preview_screen';
   static const String qrScannerScreen = '/qr_scanner_screen';
   static const String recoverAccountScreen = '/recover_account_screen';
+  static const String transactionListScreen = '/transaction_list_screen';
 
   static Route generateAppRoute(RouteSettings routeSettings) {
     var routePath = _getRoutePath(routeSettings);
@@ -117,7 +120,19 @@ class Routes {
         );
       case qrScannerScreen:
         return PageRouteBuilder(
-          pageBuilder: (context, _, __) => const QRViewExample(),
+          pageBuilder: (context, _, __) => const QrScannerScreen(),
+          transitionsBuilder: transition,
+        );
+      case transactionListScreen:
+        return PageRouteBuilder(
+          pageBuilder: (context, _, __) => BlocProvider<TransactionListBloc>(
+            create: (_) => TransactionListBloc(
+              AppLocator.locate<AlgoExplorerService>(),
+              AppLocator.locate<PureStakeService>(),
+              AppLocator.locate<EncryptedPreferencesRepository>(),
+            ),
+            child: const TransactionListScreen(),
+          ),
           transitionsBuilder: transition,
         );
     }

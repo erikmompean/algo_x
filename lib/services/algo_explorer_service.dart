@@ -20,10 +20,28 @@ class AlgoExplorerService {
     return AccountInformationExplorer(address: dto.address, amount: dto.amount);
   }
 
-  Future<List<TransactionExplorer>?> retrieveTransacctions(String address) async {
-    final uri = Uri.https(indexerUri, 'v2/accounts/$address/transactions');
+  Future<List<TransactionExplorer>?> retrieveTransacctions(String address,
+      {int? limit}) async {
+    Uri uri;
+    if (limit != null) {
+      Map<String, dynamic> queryParameters = {
+        'limit': limit.toString(),
+      };
+      uri = Uri.https(
+        indexerUri,
+        'v2/accounts/$address/transactions',
+        queryParameters,
+      );
+    } else {
+      uri = Uri.https(
+        indexerUri,
+        'v2/accounts/$address/transactions',
+      );
+    }
 
-    var response = await get(uri);
+    var response = await get(
+      uri,
+    );
 
     var dto = TransacctionsDto.fromJson(jsonDecode(response.body));
 

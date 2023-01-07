@@ -54,18 +54,14 @@ class TransactionPreviewScreen extends StatelessWidget {
                           );
                         } else if (state
                             is TransactionPreviewAcceptedPaymentState) {
-                          return Column(
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: AppText(
-                                    text:
-                                        'Tus Algos se han enviado correctamente',
-                                    color: Colors.green.shade400,
-                                  ),
-                                ),
+                          return Expanded(
+                            child: Center(
+                              child: AppText(
+                                text:
+                                    'Se ha completado la transaccion correctamente',
+                                color: Colors.green.shade400,
                               ),
-                            ],
+                            ),
                           );
                         } else {
                           return Expanded(

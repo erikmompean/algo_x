@@ -3,7 +3,7 @@ import 'package:algo_x/bloc/transaction_preview_bloc/transaction_preview_state.d
 import 'package:algo_x/repositories/encrypted_prefernces_repository.dart';
 import 'package:algo_x/services/algo_explorer_service.dart';
 import 'package:algo_x/utils/extends/string_extension.dart';
-import 'package:algo_x/utils/navigator_service.dart';
+import 'package:algo_x/utils/navigation_service.dart';
 import 'package:algo_x/utils/routes.dart';
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:algo_x/services/purestake_service.dart';
