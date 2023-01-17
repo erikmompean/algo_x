@@ -22,7 +22,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeScreenBloc>(context);
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -30,15 +29,171 @@ class HomeScreen extends StatelessWidget {
           bloc: bloc,
           builder: (context, state) {
             if (state is HomeAccountInformationLoadedState) {
-              return Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Center(
-                  child: Container(
-                    constraints: const BoxConstraints(maxWidth: 500),
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
-                      children: <Widget>[
+              return AppDeviceBuilder(builder: (context, device, size) {
+                if (device == Devices.mobile || device == Devices.tablet) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: AppTopBar(
+                            title: 'Home',
+                            hasBackButton: false,
+                            leftIcon: IconButton(
+                              onPressed: () => bloc.add(HomeOnExistPressed()),
+                              icon: Transform(
+                                transform: Matrix4.rotationY(math.pi),
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.exit_to_app,
+                                  size: 30,
+                                  color: Colors.red.shade400,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            constraints: const BoxConstraints(maxWidth: 500),
+                            child: ListView(
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
+                              shrinkWrap: true,
+                              children: <Widget>[
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Clipboard.setData(
+                                        ClipboardData(
+                                          text: state.account.publicAddress,
+                                        ),
+                                      );
+                                      const snackBar = SnackBar(
+                                        content:
+                                            Text('Copiado en el portapapeles'),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    },
+                                    customBorder: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: IgnorePointer(
+                                      child: card(
+                                        color: AppColors.background2,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: const [
+                                                Icon(
+                                                  Icons.copy,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                AppText(text: 'Direccion'),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: AppText(
+                                                    text:
+                                                        '${state.accountInformation.address} ',
+                                                    textAlign: TextAlign.center,
+                                                    size: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                card(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      AppText(
+                                        text:
+                                            '${state.accountInformation.amount.toAlgorandString()} ',
+                                        textAlign: TextAlign.center,
+                                        size: 40,
+                                      ),
+                                      Image.asset(
+                                        'assets/images/algorand_logo.png',
+                                        height: 80,
+                                        width: 80,
+                                      ),
+                                    ],
+                                  ),
+                                  color: AppColors.background2,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                  height: 120,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: card(
+                                          onTap: () {
+                                            NavigationService.instance
+                                                .navigateTo(Routes.qrScreen,
+                                                    args: state
+                                                        .account.publicAddress);
+                                          },
+                                          child: qrBox(),
+                                          color: Colors.green.shade400,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                        child: card(
+                                          onTap: () =>
+                                              bloc.add(HomeAddMoneyEvent()),
+                                          child: sendMoneyBox(),
+                                          color: Colors.blue.shade400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                transactions(state, size),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
                         AppTopBar(
                           title: 'Home',
                           hasBackButton: false,
@@ -55,163 +210,29 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              Clipboard.setData(
-                                ClipboardData(
-                                  text: state.account.publicAddress,
-                                ),
-                              );
-                              const snackBar = SnackBar(
-                                content: Text('Copiado en el portapapeles'),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            },
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: IgnorePointer(
-                              child: card(
-                                color: AppColors.background2,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: const [
-                                        Icon(
-                                          Icons.copy,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        AppText(text: 'Direccion'),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 6,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: AppText(
-                                            text:
-                                                '${state.accountInformation.address} ',
-                                            textAlign: TextAlign.center,
-                                            size: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        card(
+                        Expanded(
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              AppText(
-                                text:
-                                    '${state.accountInformation.amount.toAlgorandString()} ',
-                                textAlign: TextAlign.center,
-                                size: 40,
-                              ),
-                              Image.asset(
-                                'assets/images/algorand_logo.png',
-                                height: 80,
-                                width: 80,
-                              ),
-                            ],
-                          ),
-                          color: AppColors.background2,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 120,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: card(
-                                  onTap: () {
-                                    NavigationService.instance.navigateTo(
-                                        Routes.qrScreen,
-                                        args: state.account.publicAddress);
-                                  },
-                                  child: Column(
-                                    children: const [
-                                      AppText(
-                                        text: 'Mi QR',
-                                        size: 22,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.text,
-                                      ),
-                                      Spacer(),
-                                      Icon(
-                                        Icons.qr_code,
-                                        color: AppColors.text3,
-                                        size: 60,
-                                      )
-                                    ],
-                                  ),
-                                  color: Colors.green.shade400,
-                                ),
+                              Flexible(
+                                flex: 2,
+                                child: mainPanel(context, bloc, state),
                               ),
                               const SizedBox(
                                 width: 20,
                               ),
-                              Expanded(
-                                child: card(
-                                    onTap: () => bloc.add(HomeAddMoneyEvent()),
-                                    child: Column(
-                                      children: [
-                                        AppDeviceBuilder(
-                                            builder: (context, device, size) {
-                                          return AppText(
-                                            text: 'Enviar Dinero',
-                                            size: device == Devices.mobile
-                                                ? 18
-                                                : 22,
-                                            fontWeight: FontWeight.w400,
-                                            color: AppColors.text,
-                                          );
-                                        }),
-                                        const Spacer(),
-                                        const Icon(
-                                          Icons.send,
-                                          color: AppColors.text,
-                                          size: 60,
-                                        )
-                                      ],
-                                    ),
-                                    color: Colors.blue.shade400),
+                              Flexible(
+                                flex: 1,
+                                child: transactions(state, size),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        transactions(state, size),
-                        const SizedBox(
-                          height: 20,
-                        ),
                       ],
                     ),
-                  ),
-                ),
-              );
+                  );
+                }
+              });
             } else {
               return Center(
                 child: LoadingAnimationWidget.halfTriangleDot(
@@ -221,6 +242,175 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget mainPanel(BuildContext context, HomeScreenBloc bloc,
+      HomeAccountInformationLoadedState state) {
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: ListView(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
+          shrinkWrap: true,
+          children: <Widget>[
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  Clipboard.setData(
+                    ClipboardData(
+                      text: state.account.publicAddress,
+                    ),
+                  );
+                  const snackBar = SnackBar(
+                    content: Text('Copiado en el portapapeles'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },
+                customBorder: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: IgnorePointer(
+                  child: card(
+                    color: AppColors.background2,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(
+                              Icons.copy,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            AppText(text: 'Direccion'),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: AppText(
+                                text: '${state.accountInformation.address} ',
+                                textAlign: TextAlign.center,
+                                size: 14,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            card(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppText(
+                    text:
+                        '${state.accountInformation.amount.toAlgorandString()} ',
+                    textAlign: TextAlign.center,
+                    size: 40,
+                  ),
+                  Image.asset(
+                    'assets/images/algorand_logo.png',
+                    height: 80,
+                    width: 80,
+                  ),
+                ],
+              ),
+              color: AppColors.background2,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: 120,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: card(
+                      onTap: () {
+                        NavigationService.instance.navigateTo(Routes.qrScreen,
+                            args: state.account.publicAddress);
+                      },
+                      child: qrBox(),
+                      color: Colors.green.shade400,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: card(
+                      onTap: () => bloc.add(HomeAddMoneyEvent()),
+                      child: sendMoneyBox(),
+                      color: Colors.blue.shade400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget qrBox() {
+    return Column(
+      children: const [
+        AppText(
+          text: 'Mi QR',
+          size: 22,
+          fontWeight: FontWeight.w400,
+          color: AppColors.text,
+        ),
+        Spacer(),
+        Icon(
+          Icons.qr_code,
+          color: AppColors.text3,
+          size: 60,
+        )
+      ],
+    );
+  }
+
+  Widget sendMoneyBox() {
+    return Column(
+      children: [
+        AppDeviceBuilder(builder: (context, device, size) {
+          return AppText(
+            text: 'Enviar Dinero',
+            size: device == Devices.mobile ? 18 : 22,
+            fontWeight: FontWeight.w400,
+            color: AppColors.text,
+          );
+        }),
+        const Spacer(),
+        const Icon(
+          Icons.send,
+          color: AppColors.text,
+          size: 60,
+        )
+      ],
     );
   }
 
@@ -284,6 +474,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
@@ -295,7 +486,8 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   GestureDetector(
-                    onTap: () => NavigationService.instance.navigateTo(Routes.transactionListScreen),
+                    onTap: () => NavigationService.instance
+                        .navigateTo(Routes.transactionListScreen),
                     child: const AppText(
                       text: 'Ver Todas',
                       color: AppColors.primary,

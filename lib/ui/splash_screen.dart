@@ -13,17 +13,6 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<SplashScreenBloc>(context);
 
-    // bloc.initialize().then((value) {
-    //   Navigator.of(context).push(
-    //     MaterialPageRoute(
-    //       builder: (context) => BlocProvider<StartScreenBloc>(
-    //         create: (_) =>
-    //             StartScreenBloc(AppLocator.locate<PureStakeService>()),
-    //         child: const StartScreen(),
-    //       ),
-    //     ),
-    //   );
-    // });
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocListener(
@@ -32,7 +21,6 @@ class SplashScreen extends StatelessWidget {
           if (state is SplashFinishedLoadingState) {
             NavigationService.instance.navigateToReplacement(
                 state.isFirstTime ? Routes.start : Routes.home);
-            // bloc.add(SplashLoadingFinishedEvent());
           }
         },
         child: Center(
